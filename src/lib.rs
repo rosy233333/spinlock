@@ -12,9 +12,16 @@
 
 mod base;
 
-use kernel_guard::{NoOp, NoPreempt, NoPreemptIrqSave};
+use kernel_guard::{IrqSave, NoOp, NoPreempt, NoPreemptIrqSave};
 
 pub use self::base::{BaseSpinLock, BaseSpinLockGuard};
+
+/// A spin lock that disables local IRQs while trying to lock, and
+/// re-enables it after unlocking.
+pub type SpinNoOnlyIrq<T> = BaseSpinLock<IrqSave, T>;
+
+/// A guard that provides mutable data access for [`SpinNoOnlyIrq`].
+pub type SpinNoOnlyIrqGuard<'a, T> = BaseSpinLockGuard<'a, IrqSave, T>;
 
 /// A spin lock that disables kernel preemption while trying to lock, and
 /// re-enables it after unlocking.

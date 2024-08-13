@@ -13,6 +13,7 @@ keywords = ["Starry"]
 [features]
 # To use in the multi-core environment
 smp = []
+preempt = [ "kernel_guard/preempt" ]
 default = []
 
 [dependencies]
